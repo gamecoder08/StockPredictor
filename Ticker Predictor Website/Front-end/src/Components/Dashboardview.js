@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
-const Dashboardview = ({ onFetchData, onSelectOption }) => {
-    const [companyCode, setCompanyCode] = useState('');
+const Dashboardview = ({ companySelected, onFetchData, onSelectOption }) => {
+    const [companyCode, setCompanyCode] = useState(companySelected || '');
     const [updatedMessage, setUpdatedMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -26,6 +26,24 @@ const Dashboardview = ({ onFetchData, onSelectOption }) => {
         }
     };
 
+    useEffect(() => {
+        if (companySelected) {
+            setCompanyCode(companySelected);
+            handleAutoFetch(companySelected);
+        }
+    }, [companySelected]);
+
+    const handleAutoFetch = async (ticker) => {
+        setLoading(true);
+        try {
+            await onFetchData(ticker);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className='flex items-center bg-[#1c2023] justify-between h-[70px] z-10 shadow-xl shadow-black px-[25px] flex-shrink-0'>
             <form onSubmit={handleSubmit} className='flex items-center rounded-[5px] '>
@@ -40,7 +58,7 @@ const Dashboardview = ({ onFetchData, onSelectOption }) => {
 
                 <button
                     type='submit'
-                    disabled={loading} // Disable button while loading
+                    disabled={loading}
                     className={`h-[40px] px-[14px] flex items-center border border-[#e6e7ec] justify-center cursor-pointer rounded-tr-[5px] rounded-br-[5px] ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <FaSearch color='#e6e7ec' />

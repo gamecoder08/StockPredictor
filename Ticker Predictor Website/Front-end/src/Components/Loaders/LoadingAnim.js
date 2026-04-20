@@ -18,12 +18,10 @@ const LoadingAnim = ({ loading }) => {
                     </filter>
                 </defs>
 
-                {/* Decorative Blocks */}
                 <rect x="20" y="70" width="30" height="30" className="chart-block block-1" fill="#3b82f6" opacity="0.2" />
                 <rect x="80" y="40" width="30" height="60" className="chart-block block-2" fill="#3b82f6" opacity="0.2" />
                 <rect x="140" y="20" width="30" height="80" className="chart-block block-3" fill="#3b82f6" opacity="0.2" />
 
-                {/* Zig-Zag Jumping Line */}
                 <polyline
                     points="0,90 35,70 65,85 95,40 125,60 155,20 200,45"
                     className="stock-line-zigzag"
